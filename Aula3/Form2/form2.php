@@ -7,13 +7,14 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   </head>
   <body class="container">
+    <h1 class="mt-3">Exemplo 2</h1>
     <form action="resposta2.php" method="POST">
-        <div class="row">
+        <div class="row mt-3">
             <div class="col">
-                <input type="text" name="valor" id="valor" class="form-control">
+                <input type="number" name="valor1" id="valor1" class="form-control">
             </div>
             <div class="col">
-                <input type="text" name="valor2" id="valor2" class="form-control">
+                <input type="number" name="valor2" id="valor2" class="form-control">
             </div>
             <div class="col">
                 <button type="submit" class="btn btn-primary">Enviar</button>
