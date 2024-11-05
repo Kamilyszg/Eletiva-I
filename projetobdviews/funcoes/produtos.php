@@ -13,7 +13,6 @@
         global $pdo;
         $stmt = $pdo->prepare("SELECT p.*, c.nome as nome_categoria FROM produto p INNER JOIN
                             categoria c ON c.id = p.categoria_id WHERE p.id = ?");
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
         $stmt->execute([$id]);
         $produto = $stmt->fetch(PDO::FETCH_ASSOC);
         return $produto ? $produto : null;
