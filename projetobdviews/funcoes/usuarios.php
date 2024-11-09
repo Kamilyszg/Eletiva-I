@@ -12,8 +12,7 @@ function login(string $email, string $senha) {
     $usuario = $statement->fetchAll(PDO::FETCH_ASSOC);
     //verifica se não existe usuário
     if (!$usuario) {
-        $senha = password_hash('adm', PASSWORD_BCRYPT);
-        novoUsuario('Administrador', 'amd@adm.com', $senha, 'adm');
+        novoUsuario('Administrador', 'amd@adm.com', 'adm', 'adm');
     }
 
     //verifica email e senhado usuário
