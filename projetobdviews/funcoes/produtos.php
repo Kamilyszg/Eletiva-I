@@ -40,4 +40,17 @@
         return $stmt->execute([$id]);
     }
 
+    function gerarDadosGrafico(): array {
+        global $pdo;
+        $stmt = $pdo->query(
+        "SELECT
+            p.id,
+            p.nome,
+            SUM(c.quantidade) AS estoque
+        FROM compra c 
+        INNER JOIN produto p
+        ON p.id = produto_id
+        GROUP BY p.id");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
 ?>

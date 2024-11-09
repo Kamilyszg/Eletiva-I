@@ -12,12 +12,8 @@ function login(string $email, string $senha) {
     $usuario = $statement->fetchAll(PDO::FETCH_ASSOC);
     //verifica se não existe usuário
     if (!$usuario) {
-        $pdo->beginTransaction();
         $senha = password_hash('adm', PASSWORD_BCRYPT);
-        $statement =
-            $pdo->prepare("INSERT INTO usuario (nome, email, senha, nivel) VALUES (?, ?, ?, ?)");
-        $statement->execute(['Administrador', 'adm@adm.com', $senha, 'adm']);
-        $pdo->commit();
+        novoUsuario('Administrador', 'amd@adm.com', $senha, 'adm');
     }
 
     //verifica email e senhado usuário
@@ -30,7 +26,6 @@ function login(string $email, string $senha) {
     else
         return null;
 }
-
 
 //função para salvar um novo usuário
 function novoUsuario(string $nome, string $email, string $senha, string $nivel):bool {
