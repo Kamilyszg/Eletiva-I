@@ -1,0 +1,120 @@
+<?php 
+    require_once 'cabecalho.php'; 
+    require_once 'navbar.php';
+    require_once '../funcoes/imoveis';
+    require_once '../funcoes/proprietarios';
+
+    $erro = '';
+    $imovel = buscarImoveisPorId($idimovel); // Buscar os dados do imóvel
+    if (!$imovel){ #se retorno é nulo
+        header('Location: imoveis.php');
+        exit();
+    }
+
+    $endereco = buscarEnderecoPorId($imovel['idendereco']);
+
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        try {
+            $tipo = $_POST['tipo'];
+            $valor = floatval($_POST['valor']);
+            $status = $_POST['status'];
+            $logradouro = $_POST['logradouro'];
+            $numero = intval($_POST['numero']);
+            $bairro = $_POST['bairro'];
+            $cidade = $_POST['cidade'];
+            $estado = $_POST['estado'];
+            $descricao = $_POST['descricao'];
+
+            if (empty($tipo) || empty($valor) || empty($logradouro) || empty($numero) || empty($bairro) || empty($cidade) ||
+            empty($estado) || empty($status) || empty($descricao)) {
+                $erro = "Informe os valores obrigatórios!";
+            } else {
+                if (alterarImovel($idimovel, $tipo, $valor, $status, $logradouro, $numero, $bairro, $cidade, $estado, $imovel['idproprietario'], $descricao)) {
+                    header('Location: imoveis.php');
+                    exit();
+                } else {
+                    $erro = "Erro ao alterar imóvel!";
+                }
+            }
+        } catch (Exception $e) {
+            $erro = "Erro: " . $e->getMessage();
+        }
+    }
+?>
+
+<div class="container mt-5">
+    <h2>Editar Imóvel</h2>
+
+    <form method="POST">
+        <input type="hidden" name="idimovel" value="<?= $imovel['idimovel'] ?>">
+
+        <div class="mb-3">
+            <label for="tipo" class="form-label">Tipo do Imóvel</label>
+            <select class="form-select" name="tipo" id="tipo" required>
+                <option value="Casa" <?= $imovel['tipo'] == 'Casa' ? 'selected' : '' ?>>Casa</option> <!-- Se o tipo do imóvel = casa, então selected, senão vazio -->
+                <option value="Apartamento" <?= $imovel['tipo'] == 'Apartamento' ? 'selected' : '' ?>>Apartamento</option>
+                <option value="Comercial" <?= $imovel['tipo'] == 'Comercial' ? 'selected' : '' ?>>Comercial</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="valor" class="form-label">Valor</label>
+            <input type="number" name="valor" id="valor" class="form-control" step="0.01" value="<?= $imovel['valor'] ?>" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="logradouro" class="form-label">Logradouro</label>
+            <input type="text" name="logradouro" id="logradouro" class="form-control" value="<?= $endereco['logradouro']?>" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="numero" class="form-label">Número</label>
+            <input type="number" name="numero" id="numero" class="form-control" value="<?= $endereco['numero']?>" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="bairro" class="form-label">Bairro</label>
+            <input type="text" name="bairro" id="bairro" class="form-control" value="<?= $endereco['bairro']?>" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="cidade" class="form-label">Cidade</label>
+            <input type="text" name="cidade" id="cidade" class="form-control" value="<?= $endereco['cidade']?>" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="estado" class="form-label">Estado</label>
+            <input type="text" name="estado" id="estado" class="form-control" value="<?= $endereco['estado']?>" required>
+        </div>
+        
+        <div class="mb-3">
+            <label for="status" class="form-label">Status</label>
+            <select class="form-select" name="status" id="status" required>
+                <option value="" disabled selected> </option>
+                <option value="Disponivel" <?= $imovel['status'] == 'Disponivel' ? 'selected' : '' ?>>Disponível</option>
+                <option value="Alugado" <?= $imovel['status'] == 'Alugado' ? 'selected' : '' ?>>Alugado</option>
+                <option value="Inativo" <?= $imovel['status'] == 'Inativo' ? 'selected' : '' ?>>Inativo</option>
+            </select>
+        </div>
+        
+        <div class="mb-3">
+            <label for="proprietario" class="form-label">Proprietario</label>
+            <p>*Atenção, é necessário realizar o cadastro do proprietário préviamente</p>
+            <select class="form-select" name="proprietario" id="proprietario" required>
+                <option value="" disabled selected>Selecione o proprietário</option>
+                <?php foreach($proprietarios as $p): ?>
+                    <option value="<?= $p['idproprietario'] ?>" <?= $p['idproprietario'] == $imovel['idproprietario'] ? 'selected' : '' ?>><?= $p['nome'] ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+            
+        <div class="mb-3">
+            <label for="descricao" class="form-label">Descrição</label>
+            <!-- text area não usa value -->
+            <textarea name="descricao" id="descricao" class="form-control" required><?= $imovel['descricao'] ?></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Atualizar Imóvel</button>
+    </form>
+</div>
+
+<?php require_once 'rodape.php'; ?>
