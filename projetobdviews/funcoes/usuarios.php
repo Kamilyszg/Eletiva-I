@@ -6,24 +6,27 @@ require_once('../config/bancodedados.php');
 
 function login(string $email, string $senha) {
     global $pdo;
-    //inserção do usuário adm
-    $statement = 
-        $pdo->query("SELECT * FROM usuario WHERE email='adm@adm.com'");
-    $usuario = $statement->fetchAll(PDO::FETCH_ASSOC);
-    //verifica se não existe usuário
+
+    // Verifica se o usuário ADM já existe
+    $statement = $pdo->prepare("SELECT * FROM usuario WHERE email = ?");
+    $statement->execute(['adm@adm.com']);
+    $usuario = $statement->fetch(PDO::FETCH_ASSOC);
+
+    // Se o usuário ADM não existir, cria um novo
     if (!$usuario) {
-        novoUsuario('Administrador', 'amd@adm.com', 'adm', 'adm');
+        novoUsuario('Administrador', 'adm@adm.com', 'adm', 'adm');
     }
 
-    //verifica email e senhado usuário
-    $statement = $pdo->prepare("SELECT * FROM usuario WHERE email=?");
-    //validar os valores com regex, se é email
+    // Verifica email e senha do usuário fornecido no login
+    $statement = $pdo->prepare("SELECT * FROM usuario WHERE email = ?");
     $statement->execute([$email]);
     $usuario = $statement->fetch(PDO::FETCH_ASSOC);
-    if ($usuario && password_verify($senha, $usuario['senha']))
+
+    if ($usuario && password_verify($senha, $usuario['senha'])) {
         return $usuario;
-    else
-        return null;
+    }
+
+    return null;
 }
 
 //função para salvar um novo usuário
@@ -33,7 +36,6 @@ function novoUsuario(string $nome, string $email, string $senha, string $nivel):
     $statement = $pdo->prepare("INSERT INTO usuario (nome, email, senha, nivel) VALUES (?, ?, ?, ?)");
     return $statement->execute([$nome, $email, $senha_criptografada, $nivel]);
 }
-
 
 function excluirUsuario(int $id):bool{
     global $pdo;

@@ -7,7 +7,7 @@
 
 <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/dashboard">Sistema de Compras de Produtos</a>
+    <a class="navbar-brand" href="/dashboard">Sistema de Imobiliária</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -34,29 +34,29 @@
 
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Categorias
+            Imóveis
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="categorias.php">Gerenciar</a></li>
+            <li><a class="dropdown-item" href="imoveis.php">Gerenciar</a></li>
           </ul>
         </li>
 
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Produtos
+            Proprietários
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="produtos.php">Gerenciar</a></li>
+            <li><a class="dropdown-item" href="proprietarios.php">Gerenciar</a></li>
           </ul>
         </li>
 
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Compras
+            Locatários
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="compras.php">Gerenciar</a></li>
-            <li><a class="dropdown-item" href="relatorio_compras.php">Relatórios</a></li>
+            <li><a class="dropdown-item" href="locatarios.php">Gerenciar</a></li>
+            <!-- <li><a class="dropdown-item" href="relatorio_compras.php">Relatórios</a></li>-->
           </ul>
         </li>
       </ul>

@@ -1,6 +1,6 @@
 <?php
     $host = "localhost";
-    $db = "banco_php";
+    $db = "imobiliaria";
     $usuario = "root";
     $senha = "";
     $port = "3306";
